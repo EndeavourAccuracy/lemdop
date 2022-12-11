@@ -1,0 +1,11 @@
+# Executables.
+/lemdop
+/lemdop.exe
+
+# Created by IDE's.
+/lemdop.dev
+/lemdop.ico
+/lemdop.layout
+/lemdop.o
+/*private*
+/Makefile.win

@@ -1,0 +1,58 @@
+---------------------------------------------------------------------------
+MAIN SCREEN
+---------------------------------------------------------------------------
+0-6, 8, 9                            Shortcuts for various objects.
+d                                    Start the level in Mednafen.
+e                                    Go to the enumerate screen.
+f (and Alt + Enter/Return/Space)     Toggle fullscreen mode.
+i                                    Toggle tile information.
+q (and Escape)                       Quit the application.
+r                                    Go to the rooms screen.
+s                                    Save the level.
+z                                    Change the interface size.
+Enter (and Return and Space)         Go to the tiles screen.
+Left arrow                           Go to the tile to the left.
+Right arrow                          Go to the tile to the right.
+Up arrow                             Go to a higher tile.
+Down arrow                           Go to a lower tile.
+Shift + Left arrow                   Go to the room to the left.
+Shift + Right arrow                  Go to the room to the right.
+Shift + Up arrow                     Go to a higher room.
+Shift + Down arrow                   Go to a lower room.
+Shift + left mouse button            Re-use the last used tile.
+Shift + scroll wheel                 Scroll horizontally.
+- (and _)                            Go to the previous level.
++ (and =)                            Go to the next level.
+/ (and ?)                            Clear the entire room.
+\ (and |)                            Randomize the entire level.
+'                                    Re-use the last used tile.
+F1                                   Go to the help screen.
+F2                                   Go to the executable screen.
+
+---------------------------------------------------------------------------
+ROOMS SCREEN
+---------------------------------------------------------------------------
+d                                    Start the level in Mednafen.
+e                                    Go to the enumerate screen.
+q (and Escape)                       Go to the main screen.
+s                                    Save the level.
+- (and _)                            Go to the previous level.
++ (and =)                            Go to the next level.
+Shift / Ctrl + , / .                 Decrease/increase level width.
+Shift / Ctrl + [ / ]                 Decrease/increase level height.
+
+---------------------------------------------------------------------------
+TILES SCREEN
+---------------------------------------------------------------------------
+q (and Escape and c)                 Go to the main screen.
+Enter (and Return and Space)         Use the selected tile.
+Shift + Enter (and Return and Space) Fill entire room with tile.
+Ctrl + Enter (and Return and Space)  Fill entire level with tile.
+Left arrow                           Go to the tile to the left.
+Right arrow                          Go to the tile to the right.
+Up arrow                             Go to a higher tile.
+Down arrow                           Go to a lower tile.
+Shift / Ctrl + left / right arrow    Decrease/increase guard skill.
+Shift / Ctrl + down / up arrow       Decrease/increase guard HP.
+[ / ]                                Decrease/increase object tab.
+{ / }                                Decrease/increase graphics tab.
