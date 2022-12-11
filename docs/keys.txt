@@ -9,6 +9,7 @@ i                                    Toggle tile information.
 q (and Escape)                       Quit the application.
 r                                    Go to the rooms screen.
 s                                    Save the level.
+t                                    Switch between environments.
 z                                    Change the interface size.
 Enter (and Return and Space)         Go to the tiles screen.
 Left arrow                           Go to the tile to the left.

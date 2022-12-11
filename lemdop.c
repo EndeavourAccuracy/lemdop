@@ -1,5 +1,6 @@
-/* lemdop v0.7b (December 2016)
- * Copyright (C) 2016 Norbert de Jonge <mail@norbertdejonge.nl>
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/* lemdop v1.0 (December 2022)
+ * Copyright (C) 2016-2022 Norbert de Jonge <nlmdejonge@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -54,15 +55,15 @@
 #define EXIT_NORMAL 0
 #define EXIT_ERROR 1
 #define EDITOR_NAME "lemdop"
-#define EDITOR_VERSION "v0.7b (December 2016)"
-#define COPYRIGHT "Copyright (C) 2016 Norbert de Jonge"
+#define EDITOR_VERSION "v1.0 (December 2022)"
+#define COPYRIGHT "Copyright (C) 2022 Norbert de Jonge"
 #define TILES 30
 #define ROM_DIR "rom"
 #define BACKUP ROM_DIR SLASH "rom.bak"
 #define MAX_PATHFILE 200
 #define MAX_TOWRITE 720
-#define SCREEN_WIDTH 640 + 2 + 50 /*** 692 ***/
-#define SCREEN_HEIGHT 390 + 2 + 75 /*** 467 ***/
+#define WINDOW_WIDTH 640 + 2 + 50 /*** 692 ***/
+#define WINDOW_HEIGHT 390 + 2 + 75 /*** 467 ***/
 #define MAX_IMG 200
 #define MAX_CON 30
 #define REFRESH 25 /*** That is 40 frames per second, 1000/25. ***/
@@ -1976,7 +1977,7 @@ void InitScreen (void)
 
 	window = SDL_CreateWindow (EDITOR_NAME " " EDITOR_VERSION,
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		(SCREEN_WIDTH) * iScale, (SCREEN_HEIGHT) * iScale, iFullscreen);
+		(WINDOW_WIDTH) * iScale, (WINDOW_HEIGHT) * iScale, iFullscreen);
 	if (window == NULL)
 	{
 		printf ("[FAILED] Unable to create a window: %s!\n", SDL_GetError());
@@ -1992,8 +1993,8 @@ void InitScreen (void)
 	SDL_SetHint (SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 	if (iFullscreen != 0)
 	{
-		SDL_RenderSetLogicalSize (ascreen, (SCREEN_WIDTH) * iScale,
-			(SCREEN_HEIGHT) * iScale);
+		SDL_RenderSetLogicalSize (ascreen, (WINDOW_WIDTH) * iScale,
+			(WINDOW_HEIGHT) * iScale);
 	}
 
 	if (TTF_Init() == -1)
@@ -2509,7 +2510,7 @@ void InitScreen (void)
 					}
 					ShowScreen();
 					break;
-				case SDL_KEYDOWN: /*** http://wiki.libsdl.org/SDL_Keycode ***/
+				case SDL_KEYDOWN: /*** https://wiki.libsdl.org/SDL2/SDL_Keycode ***/
 					switch (event.key.keysym.sym)
 					{
 						case SDLK_F1:
@@ -3544,7 +3545,7 @@ void PlaySound (char *sFile)
 
 	if (sounds[iIndex].data)
 	{
-		free(sounds[iIndex].data);
+		free (sounds[iIndex].data);
 	}
 	SDL_LockAudio();
 	sounds[iIndex].data = cvt.buf;
@@ -3608,7 +3609,7 @@ void ShowScreen (void)
 	SDL_Texture *imgguard[2 + 2];
 	int iUnknownO, iUnknownG;
 	int iObject, iGraphics;
-	char arText[1 + 2][MAX_TEXT + 2];
+	char arText[9 + 2][MAX_TEXT + 2];
 	SDL_Color clr;
 	int iPrinceX, iPrinceY;
 
@@ -4617,7 +4618,7 @@ void Help (void)
 				case SDL_MOUSEMOTION:
 					iXPos = event.motion.x;
 					iYPos = event.motion.y;
-					if (InArea (80, 354, 80 + 504, 354 + 23) == 1)
+					if (InArea (80, 349, 80 + 516, 349 + 19) == 1)
 					{
 						SDL_SetCursor (curHand);
 					} else {
@@ -4640,8 +4641,8 @@ void Help (void)
 					{
 						if (InArea (590, 417, 590 + 85, 417 + 32) == 1) /*** OK ***/
 							{ iHelp = 0; }
-						if (InArea (80, 354, 80 + 504, 354 + 23) == 1)
-							{ OpenURL ("http://www.norbertdejonge.nl/lemdop/"); }
+						if (InArea (80, 349, 80 + 516, 349 + 19) == 1)
+							{ OpenURL ("https://github.com/EndeavourAccuracy/lemdop"); }
 					}
 					ShowHelp(); break;
 				case SDL_WINDOWEVENT:
@@ -5276,10 +5277,12 @@ void Zoom (int iToggleFull)
 	}
 
 	SDL_SetWindowFullscreen (window, iFullscreen);
-	SDL_SetWindowSize (window, (SCREEN_WIDTH) * iScale,
-		(SCREEN_HEIGHT) * iScale);
-	SDL_RenderSetLogicalSize (ascreen, (SCREEN_WIDTH) * iScale,
-		(SCREEN_HEIGHT) * iScale);
+	SDL_SetWindowSize (window, (WINDOW_WIDTH) * iScale,
+		(WINDOW_HEIGHT) * iScale);
+	SDL_RenderSetLogicalSize (ascreen, (WINDOW_WIDTH) * iScale,
+		(WINDOW_HEIGHT) * iScale);
+	SDL_SetWindowPosition (window, SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED);
 	TTF_CloseFont (font1);
 	TTF_CloseFont (font2);
 	TTF_CloseFont (font3);
@@ -7202,7 +7205,11 @@ void CenterNumber (int iNumber, int iX, int iY,
 	} else {
 		snprintf (sText, MAX_TEXT, "%02X", iNumber);
 	}
-	message = TTF_RenderText_Blended_Wrapped (font3, sText, fore, 0);
+	/* The 100000 is a workaround for 0 being broken. SDL devs have fixed that
+	 * see e.g. https://hg.libsdl.org/SDL_ttf/rev/72b8861dbc01 but
+	 * Ubuntu et al. still ship older sdl2-ttf versions.
+	 */
+	message = TTF_RenderText_Blended_Wrapped (font3, sText, fore, 100000);
 	messaget = SDL_CreateTextureFromSurface (ascreen, message);
 	if (iHex == 0)
 	{
@@ -8788,6 +8795,16 @@ void SaveSword (int iFd, int iLevel, int iX, int iY)
 	{
 		case 1: lseek (iFd, 0x26D88, SEEK_SET); break; /*** US ***/
 		case 2: lseek (iFd, 0x57582, SEEK_SET); break; /*** EU ***/
+	}
+	WriteWord (iFd, iLevel - 1);
+
+	/* Level where the prince starts without his sword (and
+	 * thus can pick it up). Similar switch as above.
+	 */
+	switch (iEXEType)
+	{
+		case 1: lseek (iFd, 0x200B6, SEEK_SET); break; /*** US ***/
+		case 2: lseek (iFd, 0x5040A, SEEK_SET); break; /*** EU ***/
 	}
 	WriteWord (iFd, iLevel - 1);
 
